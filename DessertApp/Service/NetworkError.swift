@@ -1,6 +1,6 @@
 //
 //  NetworkError.swift
-//  DessertApp
+//  Dessert
 //
 //  Created by Meder iZimov on 1/8/23.
 //
@@ -12,3 +12,4 @@ enum NetworkError: Error {
     case invalidStatusCode(Int)
     case generalError(Error)
 }
+

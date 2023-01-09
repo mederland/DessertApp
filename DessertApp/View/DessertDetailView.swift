@@ -46,7 +46,7 @@ struct DessertDetailView<T: DessertListViewModelType>: View {
                     Spacer()
                     if let ingredients = mealGenerator.currentMeal?.ingredients{
                         HStack{
-                            Text ("Ingredients")
+                            Text ("Ingredients :")
                                 .font(.title2)
                             Spacer()
                         }
@@ -58,6 +58,9 @@ struct DessertDetailView<T: DessertListViewModelType>: View {
                     Spacer()
                     Spacer()
                     if let instructions = mealGenerator.currentMeal?.instructions{
+                        Text ("Instructions :")
+                            .font(.title2)
+                        Spacer()
                         Text(instructions)
                     }
                     Spacer()

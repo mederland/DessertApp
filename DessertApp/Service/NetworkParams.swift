@@ -13,11 +13,10 @@ enum NetworkParams {
         static let popularDessertsBase = "https://themealdb.com/api/json/v1/1/filter.php?c=Dessert"
         static let dessertDetailBase = "https://themealdb.com/api/json/v1/1/lookup.php?i="
     }
-    
+//    URL Root
     case popularDesserts(String)
     case dessertDetail(String)
-    
-    
+
     var url: URL? {
         switch self {
         case .popularDesserts(let page):

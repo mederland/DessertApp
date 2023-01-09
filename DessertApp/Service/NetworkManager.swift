@@ -20,6 +20,8 @@ class NetworkManager {
         self.session = session
     }
 }
+// NetworkError
+
 extension NetworkManager: NetworkService {
     
     func getModel<T>(url: URL?) -> AnyPublisher<T, NetworkError> where T : Decodable {

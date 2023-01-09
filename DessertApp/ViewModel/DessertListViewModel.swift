@@ -20,7 +20,6 @@ class DessertListViewModel: DessertListViewModelType {
     
     private let networkService: NetworkService
     private var subs = Set<AnyCancellable>()
-    private var sibs = Set<AnyCancellable>()
     @Published var desserts: [Meal] = []
     @Published var detailDessert: [Dessert] = []
     var currentPage = ""
@@ -46,16 +45,6 @@ class DessertListViewModel: DessertListViewModelType {
                 print(completion)
             } receiveValue: { [weak self] (page: PageResult) in
                 self?.desserts.append(contentsOf: page.meals)
-                self?.isLoading = false
-            }.store(in: &self.subs)
-    }
-    func requestDetails() {
-        self.networkService.getModel(url: NetworkParams.dessertDetail(self.currentPage).url)
-            .receive(on: DispatchQueue.main)
-            .sink { completion in
-                print(completion)
-            } receiveValue: { [weak self] (path: Dessert) in
-//                self?.detailDessert.append(contentsOf: path.idMeal)
                 self?.isLoading = false
             }.store(in: &self.subs)
     }

@@ -12,7 +12,7 @@ final class MealGenerator: ObservableObject {
     
     @Published var currentMeal: Dessert?
     private var cancellable: AnyCancellable?
-    
+//    ViewModel
     func fetchExactMeal(i: String) {
         cancellable = URLSession.shared.dataTaskPublisher(for: URL(string: "https://themealdb.com/api/json/v1/1/lookup.php?i=\(i)")!)
             .receive(on: DispatchQueue.main)

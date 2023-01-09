@@ -13,7 +13,6 @@ struct ContentView<T: DessertListViewModelType>: View {
     @ObservedObject var dessertListVM: T
     
     var body: some View {
-        // TODO: Figure out removing space at top of NavigationView
         NavigationView {
             VStack {
                 Text("Desserts")
@@ -41,7 +40,7 @@ struct ContentView<T: DessertListViewModelType>: View {
         .padding(0)
     }
 }
-
+// TODO: Figure out removing space at top of NavigationView
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView(dessertListVM: DessertListViewModel())

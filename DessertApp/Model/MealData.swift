@@ -7,7 +7,7 @@
 
 import Foundation
 
-// MARK: - Detailk
+// MARK: - MealData
 struct MealData: Decodable {
     let meals: [Dessert]
     
