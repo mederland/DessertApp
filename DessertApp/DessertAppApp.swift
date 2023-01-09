@@ -2,7 +2,7 @@
 //  DessertAppApp.swift
 //  DessertApp
 //
-//  Created by Meder iZimov on 1/5/23.
+//  Created by Meder iZimov on 1/8/23.
 //
 
 import SwiftUI
@@ -11,7 +11,7 @@ import SwiftUI
 struct DessertAppApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView(dessertListVM: DessertListViewModel())
         }
     }
 }
