@@ -20,7 +20,6 @@ class NetworkManager {
         self.session = session
     }
 }
-// NetworkError
 
 extension NetworkManager: NetworkService {
     

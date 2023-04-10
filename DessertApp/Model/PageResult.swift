@@ -7,7 +7,6 @@
 
 import Foundation
 
-// MARK: - PageResult
 struct PageResult: Decodable {
     let meals: [Meal]
 }

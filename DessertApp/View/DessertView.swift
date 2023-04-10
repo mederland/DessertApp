@@ -6,34 +6,43 @@
 //
 
 import SwiftUI
-import Foundation
-import Combine
 
 struct DessertView<T: DessertListViewModelType>: View {
     
     @ObservedObject var dessertListVM: T
     let index: Int
-    var i: String
+    
     var body: some View {
-        HStack {
-            AsyncImage(url: URL(string: "\(self.dessertListVM.desserts[index].strMealThumb)")) { realImage in
-                realImage
-                    .resizable()
-                    .frame(width: 150, height: 150, alignment: .center)
-            } placeholder: {
-                ProgressView()
-                    .frame(width: 150, height: 150, alignment: .center)
+        VStack {
+            ZStack(alignment: .bottomLeading) {
+                AsyncImage(url: URL(string: "\(self.dessertListVM.desserts[index].strMealThumb)")) { realImage in
+                    realImage
+                        .renderingMode(.original)
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: UIScreen.main.bounds.width - 32, height: 200)
+                        .cornerRadius(10)
+                        .opacity(1)
+                        .overlay(Color.black.opacity(0.3))
+                } placeholder: {
+                    ProgressView()
+                        .frame(width: UIScreen.main.bounds.width - 32, height: 200)
+                        .cornerRadius(10)
+                        .opacity(0.8)
+                        .overlay(Color.black.opacity(0.3))
+                }
+                
+                Text(dessertListVM.desserts[index].strMeal)
+                    .foregroundColor(.white)
+                    .font(.system(size: 24, weight: .bold, design: .rounded))
+                    .padding(.leading, 16)
+                    .padding(.bottom, 16)
             }
-            .padding([.top, .bottom, .trailing], 8)
-            Text(dessertListVM.desserts[index].strMeal)
-                .padding([.top, .bottom, .trailing], 8)
+            
+            Spacer()
         }
-        .listRowInsets(EdgeInsets(top: 0, leading: 2, bottom: 0, trailing: 0))
-    }
-}
-// MARK: IC next step
-struct MovieView_Previews: PreviewProvider {
-    static var previews: some View {
-        DessertView(dessertListVM: DessertListViewModel(), index: 0, i: "")
+        .padding(.horizontal, 16)
+        .background(Color.clear)
+        .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
     }
 }

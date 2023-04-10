@@ -8,7 +8,6 @@
 import SwiftUI
 
 @main
-//  DessertApp
 struct DessertAppApp: App {
     var body: some Scene {
         WindowGroup {

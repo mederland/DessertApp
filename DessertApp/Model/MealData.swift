@@ -7,7 +7,6 @@
 
 import Foundation
 
-// MARK: - MealData
 struct MealData: Decodable {
     let meals: [Dessert]
     

@@ -6,6 +6,33 @@
 //
 
 import Foundation
+import Combine
+
+final class NetworkParam: ObservableObject {
+
+    @Published var currentMeal: Dessert?
+    private var cancellable: AnyCancellable?
+    func fetchExactMeal(i: String) {
+        cancellable = URLSession.shared.dataTaskPublisher(for: URL(string: "https://themealdb.com/api/json/v1/1/lookup.php?i=\(i)")!)
+            .tryMap { data, response -> Data in
+                guard let httpResponse = response as? HTTPURLResponse,
+                      httpResponse.statusCode == 200 else {
+                    throw URLError(.badServerResponse)
+                }
+                return data
+            }
+            .decode(type: MealData.self, decoder: JSONDecoder())
+            .map { $0.meals.first }
+            .receive(on: DispatchQueue.main)
+            .sink(receiveCompletion: { completion in
+                if case let .failure(error) = completion {
+                    print("Error fetching meal: \(error.localizedDescription)")
+                }
+            }, receiveValue: { meal in
+                self.currentMeal = meal
+            })
+    }
+}
 
 enum NetworkParams {
     
@@ -13,7 +40,6 @@ enum NetworkParams {
         static let popularDessertsBase = "https://themealdb.com/api/json/v1/1/filter.php?c=Dessert"
         static let dessertDetailBase = "https://themealdb.com/api/json/v1/1/lookup.php?i="
     }
-//    URL Root
     case popularDesserts(String)
     case dessertDetail(String)
 

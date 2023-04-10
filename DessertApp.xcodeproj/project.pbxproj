@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1C80011A296B77D3008C7CA0 /* MealGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C800119296B77D3008C7CA0 /* MealGenerator.swift */; };
 		1CB6A90129677E8500671D05 /* DessertAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CB6A90029677E8500671D05 /* DessertAppApp.swift */; };
 		1CB6A90329677E8500671D05 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CB6A90229677E8500671D05 /* ContentView.swift */; };
 		1CB6A90529677E8800671D05 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1CB6A90429677E8800671D05 /* Assets.xcassets */; };
@@ -43,7 +42,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		1C800119296B77D3008C7CA0 /* MealGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealGenerator.swift; sourceTree = "<group>"; };
 		1CB6A8FD29677E8500671D05 /* DessertApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DessertApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1CB6A90029677E8500671D05 /* DessertAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DessertAppApp.swift; sourceTree = "<group>"; };
 		1CB6A90229677E8500671D05 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -171,7 +169,6 @@
 			isa = PBXGroup;
 			children = (
 				1CB6A9332967A0D400671D05 /* DessertListViewModel.swift */,
-				1C800119296B77D3008C7CA0 /* MealGenerator.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -318,7 +315,6 @@
 			files = (
 				1CB6A90329677E8500671D05 /* ContentView.swift in Sources */,
 				1CB6A93E29689D7900671D05 /* MealData.swift in Sources */,
-				1C80011A296B77D3008C7CA0 /* MealGenerator.swift in Sources */,
 				1CB6A93A2967A39200671D05 /* NetworkError.swift in Sources */,
 				1CB6A9362967A2D800671D05 /* PageResult.swift in Sources */,
 				1CB6A90129677E8500671D05 /* DessertAppApp.swift in Sources */,
