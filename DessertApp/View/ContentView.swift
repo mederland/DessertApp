@@ -9,6 +9,8 @@ import SwiftUI
 
 struct ContentView<T: DessertListViewModelType>: View {
     @ObservedObject var dessertListVM: T
+    @State private var showDetailView = false
+    @State private var selectedIndex = 0
     
     var body: some View {
         GeometryReader { geo in
@@ -23,18 +25,20 @@ struct ContentView<T: DessertListViewModelType>: View {
                         .edgesIgnoringSafeArea(.all)
                         .frame(width: geo.size.width, height: geo.size.height, alignment: .center)
                         .opacity(1.0)
-//                        .blur(radius: 20)
+                        .blur(radius: 5)
                     content
                 }
             }
+            .padding(0)
         }
-        .padding(0)
+//
     }
-
+    
     @ViewBuilder
-    private var content: some View {
+    var content: some View {
         VStack {
             Text("Desserts")
+                .shadow(color: .pink, radius: 1)
                 .font(.largeTitle)
                 .fontWeight(.bold)
                 .foregroundColor(.white)
@@ -45,25 +49,23 @@ struct ContentView<T: DessertListViewModelType>: View {
             }
         }
     }
-
+    
     @ViewBuilder
-    private var dessertList: some View {
+    var dessertList: some View {
         List {
             ForEach(0..<self.dessertListVM.desserts.count, id: \.self) { index in
                 NavigationLink(destination: DessertDetailView(dessertVM: self.dessertListVM, index: index)) {
                     DessertView(dessertListVM: self.dessertListVM, index: index)
-                        .background(Color.clear)
-//                        .opacity(0.6) // set opacity for each cell
                         .onAppear {
                             self.dessertListVM.requestDessertsIfNeeded(index: index)
                         }
+                        .background(Color.clear)
                 }
             }
         }
         .font(.title3)
         .foregroundColor(.blue)
     }
-
 }
 
 struct ContentView_Previews: PreviewProvider {

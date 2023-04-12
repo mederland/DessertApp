@@ -12,63 +12,107 @@ struct DessertDetailView<T: DessertListViewModelType>: View {
     let index: Int
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @StateObject private var mealGenerator = NetworkParam()
+    @State private var imageOpacity: Double = 0
+    @State private var scrollViewProxy: ScrollViewProxy? = nil
     
     var body: some View {
-        NavigationView{
-            ScrollView {
-                AsyncImage(url: URL(string: "\(self.dessertVM.desserts[index].strMealThumb)")) { realImage in
-                    realImage
+        GeometryReader { geo in
+            VStack {
+                Spacer(minLength: 2)
+                ZStack(alignment: .center) {
+                    Spacer(minLength: 2)
+                    Image("Dessert")
                         .resizable()
-                        .scaledToFit()
-                        .cornerRadius(16)
-                } placeholder: {
-                    ProgressView()
-                        .frame(width: 300, height: 300, alignment: .center)
-                }
-                .padding([.top, .bottom, .trailing], 8)
-                VStack {
-                    Text(dessertVM.desserts[index].strMeal)
-                        .padding()
-                    
-                    Spacer()
-                    
-                    HStack{
-                        Text("Country:")
-                        Text(mealGenerator.currentMeal?.area ?? "-")
-                    }
-                    
-                    Spacer()
-                    
-                    VStack(alignment: .leading){
-                        Text("Ingredients:")
-                            .font(.title2)
-                        
-                        ForEach(mealGenerator.currentMeal?.ingredients ?? [], id:\.self) { ingredient in
-                            Text(ingredient.name + " - " + ingredient.measure)
-                                .multilineTextAlignment(.leading)
+                        .scaledToFill()
+                        .edgesIgnoringSafeArea(.all)
+                        .frame(width: geo.size.width, height: geo.size.height, alignment: .center)
+                        .opacity(1.0)
+                        .blur(radius: 10)
+                    VStack{
+                        if let imageUrl = URL(string: dessertVM.desserts[index].strMealThumb) {
+                            AsyncImage(url: imageUrl) { realImage in
+                                realImage
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fill)
+                                    .frame(width: geo.size.width, height: geo.size.height * 0.25)
+                                    .opacity(imageOpacity)
+                                    .animation(Animation.easeIn(duration: 2.0), value: imageOpacity)
+                            } placeholder: {
+                                ProgressView()
+                                    .frame(width: 200, height: 200, alignment: .center)
+                            }
+                            .onAppear {
+                                imageOpacity = 1
+                            }
+                        }
+                       
+                        ScrollView {
+                            Spacer().frame(height: geo.safeAreaInsets.top)
+                            VStack(spacing: 16) {
+                                Text(dessertVM.desserts[index].strMeal)
+                                    .font(.title)
+                                    .fontWeight(.bold)
+                                    .foregroundColor(.white)
+                                VStack(alignment: .leading, spacing: 16) {
+                                    HStack {
+                                        Text("Country:")
+                                            .font(.headline)
+                                            .fontWeight(.medium)
+                                        Text(mealGenerator.currentMeal?.area ?? "-")
+                                            .font(.subheadline)
+                                    }
+                                    VStack(alignment: .leading, spacing: 8) {
+                                        Text("Ingredients:")
+                                            .font(.headline)
+                                            .fontWeight(.medium)
+                                        ForEach(mealGenerator.currentMeal?.ingredients ?? [], id:\.self) { ingredient in
+                                            Text("\(ingredient.name) - \(ingredient.measure)")
+                                                .font(.subheadline)
+                                        }
+                                    }
+                                    VStack(alignment: .leading, spacing: 8) {
+                                        Text("Instructions:")
+                                            .font(.headline)
+                                            .fontWeight(.medium)
+                                        Text(mealGenerator.currentMeal?.instructions ?? "-")
+                                            .font(.subheadline)
+                                            .fixedSize(horizontal: false, vertical: true)
+                                    }
+                                    Spacer()
+                                }
+                                .foregroundColor(.white)
+                                .padding(.horizontal, 16)
+                            }
+                            .frame(maxWidth: .infinity, maxHeight: .greatestFiniteMagnitude)
+                            .background(Color.black.opacity(0.8))
+                            .cornerRadius(24)
+                            .padding(.horizontal, 16)
+                            .padding(.bottom, 16)
+                        }
+                        .onAppear {
+                            scrollViewProxy?.scrollTo(0)
                         }
                     }
-                    
-                    Spacer()
-                    
-                    VStack(alignment: .leading){
-                        Text("Instructions:")
-                            .font(.title2)
-                        Text(mealGenerator.currentMeal?.instructions ?? "-")
-                    }
-                    
-                    Spacer()
                 }
-                .padding(.horizontal)
-            }
-            .navigationBarBackButtonHidden(true)
-            .navigationBarTitle(Text("\(self.dessertVM.desserts[index].strMeal)"))
-            .accentColor(.red)
-            .onAppear{
-                mealGenerator.fetchExactMeal(i: self.dessertVM.desserts[index].idMeal)
+                .navigationBarBackButtonHidden(true)
+                .navigationBarTitle("", displayMode: .inline)
+                .navigationBarItems(
+                    leading: EmptyView(),
+                    trailing: Button(action: {
+                        presentationMode.wrappedValue.dismiss()
+                    }, label: {
+                        Image(systemName: "chevron.left")
+                            .foregroundColor(.red)
+                            .font(.title2)
+                            .shadow(color: .white, radius: 1)
+                    })
+                )
+                .edgesIgnoringSafeArea(.top)
+                .onAppear{
+                    mealGenerator.fetchExactMeal(i: self.dessertVM.desserts[index].idMeal)
+                }
             }
         }
-        .padding(.horizontal)
     }
 }
 
