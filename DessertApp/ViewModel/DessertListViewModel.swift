@@ -17,14 +17,14 @@ protocol DessertListViewModelType: ObservableObject {
 }
 
 class DessertListViewModel: DessertListViewModelType {
-    
+
     private let networkService: NetworkService
     private var subs = Set<AnyCancellable>()
     @Published var desserts: [Meal] = []
     @Published var detailDessert: [Dessert] = []
     var currentPage = ""
     @Published var isLoading: Bool = false
- 
+
     init(network: NetworkService = NetworkManager()) {
         self.networkService = network
         self.requestDessertsIfNeeded(index: 0)

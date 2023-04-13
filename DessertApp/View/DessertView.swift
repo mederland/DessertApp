@@ -19,18 +19,18 @@ struct DessertView<T: DessertListViewModelType>: View {
                 if let imageUrl = URL(string: "\(self.dessertListVM.desserts[index].strMealThumb)") {
                     URLImage(imageUrl,
                              failure: { error, _ in
-                                 PlaceholderImageView()
-                             },
+                        PlaceholderImageView()
+                    },
                              content: { image in
-                                 image
-                                     .renderingMode(.original)
-                                     .resizable()
-                                     .aspectRatio(contentMode: .fill)
-                                     .frame(width: UIScreen.main.bounds.width - 32, height: 200)
-                                     .cornerRadius(10)
-                                     .opacity(1)
-                                     .overlay(Color.black.opacity(0.3))
-                             })
+                        image
+                            .renderingMode(.original)
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width: UIScreen.main.bounds.width - 32, height: 200)
+                            .cornerRadius(10)
+                            .opacity(1)
+                            .overlay(Color.black.opacity(0.3))
+                    })
                 } else {
                     PlaceholderImageView()
                 }

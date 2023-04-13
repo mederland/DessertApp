@@ -11,7 +11,7 @@ struct DessertDetailView<T: DessertListViewModelType>: View {
     @ObservedObject var dessertVM: T
     let index: Int
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-    @StateObject private var mealGenerator = NetworkParam()
+    @StateObject private var dessertData = NetworkParam()
     @State private var imageOpacity: Double = 0
     @State private var scrollViewProxy: ScrollViewProxy? = nil
     
@@ -45,7 +45,7 @@ struct DessertDetailView<T: DessertListViewModelType>: View {
                                 imageOpacity = 1
                             }
                         }
-                       
+                        
                         ScrollView {
                             Spacer().frame(height: geo.safeAreaInsets.top)
                             VStack(spacing: 16) {
@@ -58,14 +58,14 @@ struct DessertDetailView<T: DessertListViewModelType>: View {
                                         Text("Country:")
                                             .font(.headline)
                                             .fontWeight(.medium)
-                                        Text(mealGenerator.currentMeal?.area ?? "-")
+                                        Text(dessertData.currentMeal?.area ?? "-")
                                             .font(.subheadline)
                                     }
                                     VStack(alignment: .leading, spacing: 8) {
                                         Text("Ingredients:")
                                             .font(.headline)
                                             .fontWeight(.medium)
-                                        ForEach(mealGenerator.currentMeal?.ingredients ?? [], id:\.self) { ingredient in
+                                        ForEach(dessertData.currentMeal?.ingredients ?? [], id:\.self) { ingredient in
                                             Text("\(ingredient.name) - \(ingredient.measure)")
                                                 .font(.subheadline)
                                         }
@@ -74,7 +74,7 @@ struct DessertDetailView<T: DessertListViewModelType>: View {
                                         Text("Instructions:")
                                             .font(.headline)
                                             .fontWeight(.medium)
-                                        Text(mealGenerator.currentMeal?.instructions ?? "-")
+                                        Text(dessertData.currentMeal?.instructions ?? "-")
                                             .font(.subheadline)
                                             .fixedSize(horizontal: false, vertical: true)
                                     }
@@ -109,7 +109,7 @@ struct DessertDetailView<T: DessertListViewModelType>: View {
                 )
                 .edgesIgnoringSafeArea(.top)
                 .onAppear{
-                    mealGenerator.fetchExactMeal(i: self.dessertVM.desserts[index].idMeal)
+                    dessertData.fetchExactMeal(index: self.dessertVM.desserts[index].idMeal)
                 }
             }
         }

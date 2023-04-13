@@ -12,8 +12,10 @@ final class NetworkParam: ObservableObject {
 
     @Published var currentMeal: Dessert?
     private var cancellable: AnyCancellable?
-    func fetchExactMeal(i: String) {
-        cancellable = URLSession.shared.dataTaskPublisher(for: URL(string: "https://themealdb.com/api/json/v1/1/lookup.php?i=\(i)")!)
+    
+    
+    func fetchExactMeal(index: String) {
+        cancellable = URLSession.shared.dataTaskPublisher(for: URL(string: "https://themealdb.com/api/json/v1/1/lookup.php?i=\(index)")!)
             .tryMap { data, response -> Data in
                 guard let httpResponse = response as? HTTPURLResponse,
                       httpResponse.statusCode == 200 else {
@@ -51,7 +53,7 @@ enum NetworkParams {
         case .dessertDetail(let path):
             var components = URLComponents(string: NetworkConstants.dessertDetailBase)
             var queryItems: [URLQueryItem] = []
-            queryItems.append(URLQueryItem(name: "i", value: "\(path)"))
+            queryItems.append(URLQueryItem(name: "index", value: "\(path)"))
             components?.queryItems = queryItems
             return components?.url
         }

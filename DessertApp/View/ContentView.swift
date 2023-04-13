@@ -12,18 +12,18 @@ struct ContentView<T: DessertListViewModelType>: View {
     @State private var showDetailView = false
     @State private var selectedIndex = 0
     @State private var searchText = ""
-
+    
     var filteredDesserts: [Meal] {
         if searchText.isEmpty {
             return dessertListVM.desserts
         } else {
             return dessertListVM.desserts.filter { dessert in
-                let contains = dessert.strMeal.localizedCaseInsensitiveContains(searchText)ed
+                let contains = dessert.strMeal.localizedCaseInsensitiveContains(searchText)
                 return contains
             }
         }
     }
-
+    
     var body: some View {
         GeometryReader { geo in
             Color.clear
@@ -44,7 +44,7 @@ struct ContentView<T: DessertListViewModelType>: View {
             .padding(0)
         }
     }
-
+    
     @ViewBuilder
     var content: some View {
         VStack {
@@ -60,7 +60,7 @@ struct ContentView<T: DessertListViewModelType>: View {
             }
         }
     }
-
+    
     @ViewBuilder
     var dessertList: some View {
         VStack{
@@ -89,7 +89,7 @@ struct ContentView<T: DessertListViewModelType>: View {
 
 struct SearchBar: View {
     @Binding var text: String
-
+    
     var body: some View {
         HStack(spacing: 8) {
             TextField("Search", text: $text)
