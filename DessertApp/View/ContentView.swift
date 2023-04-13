@@ -18,8 +18,7 @@ struct ContentView<T: DessertListViewModelType>: View {
             return dessertListVM.desserts
         } else {
             return dessertListVM.desserts.filter { dessert in
-                let contains = dessert.strMeal.localizedCaseInsensitiveContains(searchText)
-//
+                let contains = dessert.strMeal.localizedCaseInsensitiveContains(searchText)ed
                 return contains
             }
         }
@@ -72,12 +71,19 @@ struct ContentView<T: DessertListViewModelType>: View {
                         .onAppear {
                             self.dessertListVM.requestDessertsIfNeeded(index: self.dessertListVM.desserts.firstIndex(where: { $0.idMeal == dessert.idMeal })!)
                         }
-                        .background(Color.clear)
                 }
             }
             .font(.title3)
             .foregroundColor(.blue)
         }
+        .background(
+            Image("Dessert")
+                .resizable()
+                .scaledToFill()
+                .edgesIgnoringSafeArea(.all)
+                .opacity(1.0)
+                .blur(radius: 5)
+        )
     }
 }
 
