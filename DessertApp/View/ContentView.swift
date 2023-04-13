@@ -11,7 +11,20 @@ struct ContentView<T: DessertListViewModelType>: View {
     @ObservedObject var dessertListVM: T
     @State private var showDetailView = false
     @State private var selectedIndex = 0
-    
+    @State private var searchText = ""
+
+    var filteredDesserts: [Meal] {
+        if searchText.isEmpty {
+            return dessertListVM.desserts
+        } else {
+            return dessertListVM.desserts.filter { dessert in
+                let contains = dessert.strMeal.localizedCaseInsensitiveContains(searchText)
+                print("Search text: \(searchText), Dessert: \(dessert.strMeal), Contains: \(contains)")
+                return contains
+            }
+        }
+    }
+
     var body: some View {
         GeometryReader { geo in
             Color.clear
@@ -31,9 +44,8 @@ struct ContentView<T: DessertListViewModelType>: View {
             }
             .padding(0)
         }
-//
     }
-    
+
     @ViewBuilder
     var content: some View {
         VStack {
@@ -49,24 +61,49 @@ struct ContentView<T: DessertListViewModelType>: View {
             }
         }
     }
-    
+
     @ViewBuilder
     var dessertList: some View {
-        List {
-            ForEach(0..<self.dessertListVM.desserts.count, id: \.self) { index in
-                NavigationLink(destination: DessertDetailView(dessertVM: self.dessertListVM, index: index)) {
-                    DessertView(dessertListVM: self.dessertListVM, index: index)
+        VStack{
+            SearchBar(text: $searchText)
+            List(filteredDesserts, id: \.idMeal) { dessert in
+                NavigationLink(destination: DessertDetailView(dessertVM: self.dessertListVM, index: self.dessertListVM.desserts.firstIndex(where: { $0.idMeal == dessert.idMeal })!)) {
+                    DessertView(dessertListVM: self.dessertListVM, index: self.dessertListVM.desserts.firstIndex(where: { $0.idMeal == dessert.idMeal })!)
                         .onAppear {
-                            self.dessertListVM.requestDessertsIfNeeded(index: index)
+                            self.dessertListVM.requestDessertsIfNeeded(index: self.dessertListVM.desserts.firstIndex(where: { $0.idMeal == dessert.idMeal })!)
                         }
                         .background(Color.clear)
                 }
             }
+            .font(.title3)
+            .foregroundColor(.blue)
         }
-        .font(.title3)
-        .foregroundColor(.blue)
     }
 }
+
+struct SearchBar: View {
+    @Binding var text: String
+
+    var body: some View {
+        HStack(spacing: 8) {
+            TextField("Search", text: $text)
+                .padding(.leading, 8)
+                .padding(.vertical, 12)
+                .background(Color(.systemGray6))
+                .cornerRadius(8)
+                .padding(.horizontal, 16)
+            Button(action: {
+                self.text = ""
+            }) {
+                Image(systemName: "xmark.circle.fill")
+                    .foregroundColor(.secondary)
+                    .font(.system(size: 24))
+            }
+            .padding(.trailing, 16)
+        }
+    }
+}
+
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
