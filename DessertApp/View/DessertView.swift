@@ -18,6 +18,9 @@ struct DessertView<T: DessertListViewModelType>: View {
             ZStack(alignment: .bottomLeading) {
                 if let imageUrl = URL(string: "\(self.dessertListVM.desserts[index].strMealThumb)") {
                     URLImage(imageUrl,
+                             failure: { error, _ in
+                                 PlaceholderImageView()
+                             },
                              content: { image in
                                  image
                                      .renderingMode(.original)
@@ -29,14 +32,7 @@ struct DessertView<T: DessertListViewModelType>: View {
                                      .overlay(Color.black.opacity(0.3))
                              })
                 } else {
-                    Image(systemName: "Dessert")
-                        .renderingMode(.original)
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .frame(width: UIScreen.main.bounds.width - 32, height: 200)
-                        .cornerRadius(10)
-                        .opacity(1)
-                        .overlay(Color.black.opacity(0.3))
+                    PlaceholderImageView()
                 }
                 
                 Text(dessertListVM.desserts[index].strMeal)
@@ -54,3 +50,15 @@ struct DessertView<T: DessertListViewModelType>: View {
     }
 }
 
+struct PlaceholderImageView: View {
+    var body: some View {
+        Image(systemName: "photo")
+            .renderingMode(.original)
+            .resizable()
+            .aspectRatio(contentMode: .fill)
+            .frame(width: UIScreen.main.bounds.width - 32, height: 200)
+            .cornerRadius(10)
+            .opacity(0.5)
+            .overlay(Color.black.opacity(0.3))
+    }
+}

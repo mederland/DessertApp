@@ -19,7 +19,7 @@ struct ContentView<T: DessertListViewModelType>: View {
         } else {
             return dessertListVM.desserts.filter { dessert in
                 let contains = dessert.strMeal.localizedCaseInsensitiveContains(searchText)
-                print("Search text: \(searchText), Dessert: \(dessert.strMeal), Contains: \(contains)")
+//
                 return contains
             }
         }
@@ -96,7 +96,7 @@ struct SearchBar: View {
                 self.text = ""
             }) {
                 Image(systemName: "xmark.circle.fill")
-                    .foregroundColor(.secondary)
+                    .foregroundColor(.red)
                     .font(.system(size: 24))
             }
             .padding(.trailing, 16)

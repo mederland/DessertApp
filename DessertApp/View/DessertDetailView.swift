@@ -101,9 +101,9 @@ struct DessertDetailView<T: DessertListViewModelType>: View {
                     trailing: Button(action: {
                         presentationMode.wrappedValue.dismiss()
                     }, label: {
-                        Image(systemName: "chevron.left")
+                        Image(systemName: "arrow.uturn.backward.circle.fill")
                             .foregroundColor(.red)
-                            .font(.title2)
+                            .font(.title)
                             .shadow(color: .white, radius: 1)
                     })
                 )
@@ -115,4 +115,5 @@ struct DessertDetailView<T: DessertListViewModelType>: View {
         }
     }
 }
+
 
