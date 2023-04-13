@@ -1,1 +1,2 @@
-# DessertApp
+# Dessert
+One of the app to make good Desserts, good for practice ...
